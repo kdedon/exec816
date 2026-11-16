@@ -1,0 +1,210 @@
+* SPDX-License-Identifier: MIT
+* exec.library, Amiga Exec V39 vector order (NDK exec_lib.fd).
+*
+* C900 dialect (tools/genlvo.py): an implemented function replaces the
+* 68000 register list with its C900 argument types and is followed by its
+* return type and, when it is not "x" + its name, "@" and the C function.
+* A line that keeps its register list is not implemented: its vector
+* raises the AN_BadLVO alert.  exec.library functions take no hidden base
+* argument: SysBase is a global.
+##base _SysBase
+##bias 6
+##private
+Open(version)(ULONG) struct Library * @kexecopen
+Close()() APTR @kexecclose
+Expunge()() APTR @knull
+Reserved()() APTR @knull
+##bias 30
+##public
+*------ misc ---------------------------------------------------------
+Supervisor(userFunction)(a5)
+*------ special patchable hooks to internal exec activity ------------
+##private
+execPrivate1()()
+execPrivate2()()
+execPrivate3()()
+execPrivate4()()
+execPrivate5()()
+execPrivate6()()
+##public
+*------ module creation ----------------------------------------------
+InitCode(startClass,version)(ULONG,ULONG) void
+InitStruct(initTable,memory,size)(APTR,APTR,ULONG) void
+MakeLibrary(funcInit,structInit,libInit,dataSize,segList)(APTR,APTR,APTR,ULONG,APTR) struct Library *
+MakeFunctions(target,functionArray,funcDispBase)(APTR,APTR,APTR) ULONG
+FindResident(name)(char *) struct Resident *
+InitResident(resident,segList)(struct Resident *,APTR) APTR
+*------ diagnostics --------------------------------------------------
+Alert(alertNum)(ULONG) void
+Debug(flags)(d0)
+*------ interrupts ---------------------------------------------------
+Disable()() void
+Enable()() void
+Forbid()() void
+Permit()() void
+SetSR(newSR,mask)(d0/d1)
+SuperState()()
+UserState(sysStack)(d0)
+SetIntVector(intNumber,interrupt)(UWORD,struct Interrupt *) struct Interrupt *
+AddIntServer(intNumber,interrupt)(UWORD,struct Interrupt *) void
+RemIntServer(intNumber,interrupt)(UWORD,struct Interrupt *) void
+Cause(interrupt)(a1)
+*------ memory allocation --------------------------------------------
+Allocate(freeList,byteSize)(struct MemHeader *,ULONG) APTR
+Deallocate(freeList,memoryBlock,byteSize)(struct MemHeader *,APTR,ULONG) void
+AllocMem(byteSize,requirements)(ULONG,ULONG) APTR
+AllocAbs(byteSize,location)(ULONG,APTR) APTR
+FreeMem(memoryBlock,byteSize)(APTR,ULONG) void
+AvailMem(requirements)(ULONG) ULONG
+AllocEntry(entry)(struct MemList *) struct MemList *
+FreeEntry(entry)(struct MemList *) void
+*------ lists --------------------------------------------------------
+Insert(list,node,pred)(struct List *,struct Node *,struct Node *) void
+AddHead(list,node)(struct List *,struct Node *) void
+AddTail(list,node)(struct List *,struct Node *) void
+Remove(node)(struct Node *) void
+RemHead(list)(struct List *) struct Node *
+RemTail(list)(struct List *) struct Node *
+Enqueue(list,node)(struct List *,struct Node *) void
+FindName(list,name)(struct List *,char *) struct Node *
+*------ tasks --------------------------------------------------------
+AddTask(task,initPC,finalPC)(struct Task *,TASKPROC,TASKPROC) struct Task *
+RemTask(task)(struct Task *) void
+FindTask(name)(char *) struct Task *
+SetTaskPri(task,priority)(struct Task *,int) int
+SetSignal(newSignals,signalSet)(ULONG,ULONG) ULONG
+SetExcept(newSignals,signalSet)(d0/d1)
+Wait(signalSet)(ULONG) ULONG
+Signal(task,signalSet)(struct Task *,ULONG) void
+AllocSignal(signalNum)(int) int
+FreeSignal(signalNum)(int) void
+AllocTrap(trapNum)(d0)
+FreeTrap(trapNum)(d0)
+*------ messages -----------------------------------------------------
+AddPort(port)(struct MsgPort *) void
+RemPort(port)(struct MsgPort *) void
+PutMsg(port,message)(struct MsgPort *,struct Message *) void
+GetMsg(port)(struct MsgPort *) struct Message *
+ReplyMsg(message)(struct Message *) void
+WaitPort(port)(struct MsgPort *) struct Message *
+FindPort(name)(char *) struct MsgPort *
+*------ libraries ----------------------------------------------------
+AddLibrary(library)(struct Library *) void
+RemLibrary(library)(struct Library *) APTR
+OldOpenLibrary(libName)(char *) struct Library * @xOldOpenLib
+CloseLibrary(library)(struct Library *) void
+SetFunction(library,funcOffset,newFunction)(struct Library *,LONG,APTR) APTR
+SumLibrary(library)(struct Library *) void
+*------ devices ------------------------------------------------------
+AddDevice(device)(struct Device *) void
+RemDevice(device)(struct Device *) APTR @xRemLibrary
+OpenDevice(devName,unit,ioRequest,flags)(char *,ULONG,struct IORequest *,ULONG) BYTE
+CloseDevice(ioRequest)(struct IORequest *) void
+DoIO(ioRequest)(struct IORequest *) BYTE
+SendIO(ioRequest)(struct IORequest *) void
+CheckIO(ioRequest)(struct IORequest *) struct IORequest *
+WaitIO(ioRequest)(struct IORequest *) BYTE
+AbortIO(ioRequest)(struct IORequest *) LONG
+*------ resources ----------------------------------------------------
+AddResource(resource)(APTR) void
+RemResource(resource)(APTR) void
+OpenResource(resName)(char *) APTR
+*------ private diagnostic support -----------------------------------
+##private
+execPrivate7()()
+execPrivate8()()
+RawPutChar(c)(int) void @kputc
+##public
+*------ misc ---------------------------------------------------------
+RawDoFmt(formatString,dataStream,putChProc,putChData)(char *,APTR,APTR,APTR) APTR
+GetCC()()
+TypeOfMem(address)(APTR) ULONG
+Procure(sigSem,bidMsg)(struct SignalSemaphore *,struct SemaphoreMessage *) void
+Vacate(sigSem,bidMsg)(struct SignalSemaphore *,struct SemaphoreMessage *) void
+OpenLibrary(libName,version)(char *,ULONG) struct Library *
+*--- functions in V33 or higher (Release 1.2) ---
+*------ signal semaphores (note funny registers)----------------------
+InitSemaphore(sigSem)(struct SignalSemaphore *) void
+ObtainSemaphore(sigSem)(struct SignalSemaphore *) void @xObtainSem
+ReleaseSemaphore(sigSem)(struct SignalSemaphore *) void @xReleaseSem
+AttemptSemaphore(sigSem)(struct SignalSemaphore *) ULONG @xAttemptSem
+ObtainSemaphoreList(sigSem)(struct List *) void @xObtainSemList
+ReleaseSemaphoreList(sigSem)(struct List *) void @xReleaseSemList
+FindSemaphore(name)(char *) struct SignalSemaphore *
+AddSemaphore(sigSem)(struct SignalSemaphore *) void
+RemSemaphore(sigSem)(struct SignalSemaphore *) void
+*------ kickmem support ----------------------------------------------
+SumKickData()()
+*------ more memory support ------------------------------------------
+AddMemList(size,attributes,pri,base,name)(d0/d1/d2/a0/a1)
+CopyMem(source,dest,size)(APTR,APTR,ULONG) void
+CopyMemQuick(source,dest,size)(APTR,APTR,ULONG) void @xCopyMem
+*------ cache --------------------------------------------------------
+*--- functions in V36 or higher (Release 2.0) ---
+CacheClearU()()
+CacheClearE(address,length,caches)(a0,d0/d1)
+CacheControl(cacheBits,cacheMask)(d0/d1)
+*------ misc ---------------------------------------------------------
+CreateIORequest(port,size)(struct MsgPort *,ULONG) struct IORequest * @xCreateIOReq
+DeleteIORequest(iorequest)(struct IORequest *) void @xDeleteIOReq
+CreateMsgPort()() struct MsgPort *
+DeleteMsgPort(port)(struct MsgPort *) void
+ObtainSemaphoreShared(sigSem)(struct SignalSemaphore *) void @xObtainSemShr
+*------ even more memory support -------------------------------------
+AllocVec(byteSize,requirements)(ULONG,ULONG) APTR
+FreeVec(memoryBlock)(APTR) void
+*------ V39 Pool LVOs...
+CreatePool(requirements,puddleSize,threshSize)(ULONG,ULONG,ULONG) APTR
+DeletePool(poolHeader)(APTR) void
+AllocPooled(poolHeader,memSize)(APTR,ULONG) APTR
+FreePooled(poolHeader,memory,memSize)(APTR,APTR,ULONG) void
+*------ misc ---------------------------------------------------------
+AttemptSemaphoreShared(sigSem)(struct SignalSemaphore *) ULONG @xAttemptSemShr
+ColdReboot()()
+StackSwap(newStack)(struct StackSwapStruct *) void
+*------ task trees ---------------------------------------------------
+##private
+execPrivate10()()
+execPrivate11()()
+execPrivate12()()
+execPrivate13()()
+##public
+*------ future expansion ---------------------------------------------
+CachePreDMA(address,length,flags)(APTR,ULONG *,ULONG) APTR
+CachePostDMA(address,length,flags)(APTR,ULONG *,ULONG) void
+*------ New, for V39
+*--- functions in V39 or higher (Release 3.0) ---
+*------ Low memory handler functions
+AddMemHandler(memhand)(struct Interrupt *) void
+RemMemHandler(memhand)(struct Interrupt *) void
+*------ Function to attempt to obtain a Quick Interrupt Vector...
+ObtainQuickVector(interruptCode)(a0)
+*------ Exec900 extensions, after the last V39 vector ----------------
+ExecVersion()() UWORD
+Yield()() void
+Sleep(ticks)(ULONG) void
+CreateTask(name,pri,initPC,stackSize)(char *,LONG,TASKPROC,ULONG) struct Task *
+IntStray(intNumber)(WORD) ULONG
+*------ reserved: was BeginIO, now a macro in <exec/devices.h> ------
+##private
+exec900Private1()()
+##public
+TermIO(ioRequest)(struct IORequest *) void
+KPutStr(string)(char *) void
+PtrStep(address,delta)(APTR,LONG) APTR
+InternalLoadSeg(fh,table,funcarray,stack)(APTR,APTR,LONG *,LONG *) APTR @xInLoadSeg
+InternalUnLoadSeg(seglist,freefunc)(APTR,APTR) LONG @xInUnLoadSeg
+*------ test-only: kernel internals for tests/ (kernel/testhooks.h) -----
+TestHooks()() APTR
+*------ reserved, so the pooled vector calls keep the AROS offsets -----
+##private
+exec900Private2()()
+exec900Private3()()
+exec900Private4()()
+exec900Private5()()
+exec900Private6()()
+##public
+*------ AROS/MorphOS/OS4 extension: vector allocations from a pool ------
+AllocVecPooled(poolHeader,memSize)(APTR,ULONG) APTR @xAllocVecPool
+FreeVecPooled(poolHeader,memory)(APTR,APTR) void @xFreeVecPool
+##end

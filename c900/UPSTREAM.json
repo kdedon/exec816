@@ -1,0 +1,549 @@
+{
+  "comment": "Map from Exec900 port units to the upstream Exec816 paths they track. Upstream paths are relative to the repository root, port paths to c900/. 'reviewed' is the last upstream commit the port was brought in line with; update it with tools/drift.py --mark. See AGENTS.md.",
+  "upstream": {
+    "url": "https://github.com/mkur/exec816",
+    "remote": "upstream",
+    "branch": "main"
+  },
+  "units": {
+    "lists": {
+      "port": [
+        "platform/lists.s",
+        "include/exec/lists.h"
+      ],
+      "upstream": [
+        "lib/exec/execlists.act",
+        "docs/reference/lists.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "tasks": {
+      "port": [
+        "kernel/tasks.c",
+        "platform/trap.s",
+        "kernel/epu.c",
+        "platform/epuasm.s",
+        "tests/epu.c"
+      ],
+      "upstream": [
+        "lib/exec/taskpolicy.act",
+        "lib/exec/task-lifetime.inc",
+        "platform/altirraos/tasks.s",
+        "platform/altirraos/preemptive.s",
+        "docs/reference/tasks.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "signals": {
+      "port": [
+        "kernel/signals.c"
+      ],
+      "upstream": [
+        "lib/exec/task-signals.inc",
+        "platform/altirraos/signal-atomic.s",
+        "docs/reference/signals.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "ports": {
+      "port": [
+        "kernel/ports.c"
+      ],
+      "upstream": [
+        "lib/exec/portcore.act",
+        "lib/exec/task-ports.inc",
+        "lib/exec/exec-port-types.inc",
+        "platform/altirraos/ports.s",
+        "docs/reference/ports.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "semaphores": {
+      "port": [
+        "kernel/semaphores.c",
+        "platform/semfast.s",
+        "include/exec/semaphores.h",
+        "tests/sem.c",
+        "tests/semstress.c"
+      ],
+      "upstream": [
+        "docs/reference/signals.md",
+        "docs/reference/tasks.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "memory": {
+      "port": [
+        "kernel/memory.c"
+      ],
+      "upstream": [
+        "lib/exec/heapcore.act",
+        "lib/exec/heappolicy.act",
+        "lib/exec/execmemory.act",
+        "lib/exec/heap-system.inc",
+        "platform/altirraos/heap.s",
+        "docs/reference/memory.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "pools": {
+      "port": [
+        "kernel/pools.c",
+        "tests/pools.c"
+      ],
+      "upstream": [
+        "docs/reference/memory.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "mathieee": {
+      "port": [
+        "math/mathieeedoubbas.c",
+        "math/mathieeedoubtrans.c",
+        "math/mathepu.s",
+        "fd/mathieeedoubbas_lib.fd",
+        "fd/mathieeedoubtrans_lib.fd",
+        "libc/fpepu.s"
+      ],
+      "upstream": [
+        "docs/reference/c-runtime.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "abi": {
+      "port": [
+        "tools/genabi.py",
+        "include/exec/exec.h"
+      ],
+      "generated": true,
+      "upstream": [
+        "abi/tasks.json",
+        "abi/ports.json",
+        "abi/heap-v1.json",
+        "abi/io.json",
+        "abi/timer-device.json"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "boot": {
+      "port": [
+        "kernel/boot.c",
+        "platform/crt.s",
+        "platform/machine.c"
+      ],
+      "upstream": [
+        "lib/exec/bootconfig.act"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "interrupts": {
+      "port": [
+        "kernel/interrupts.c",
+        "include/exec/interrupts.h",
+        "platform/trap.s",
+        "platform/crt.s"
+      ],
+      "upstream": [
+        "abi/native-interrupts.json",
+        "platform/altirraos/interrupt-work.s",
+        "platform/altirraos/native-interrupts.inc",
+        "docs/reference/platform.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "devices": {
+      "port": [
+        "kernel/devices.c",
+        "include/exec/devices.h",
+        "include/exec/io.h",
+        "tests/devio.c"
+      ],
+      "upstream": [
+        "lib/io/iocore.act",
+        "lib/io/task-io.inc",
+        "lib/io/io-call-types.inc",
+        "lib/io/iotestdriver.act",
+        "platform/altirraos/io.s",
+        "docs/reference/device-io.md",
+        "docs/reference/resident-drivers.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "libraries": {
+      "port": [
+        "kernel/libraries.c",
+        "include/exec/libraries.h",
+        "include/exec/resident.h",
+        "include/exec/initializers.h",
+        "include/exec/execbase.h",
+        "fd/exec_lib.fd",
+        "tools/genlvo.py",
+        "tests/library.c"
+      ],
+      "upstream": [
+        "docs/reference/resident-drivers.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "loadseg": {
+      "port": [
+        "kernel/loadseg.c",
+        "kernel/bootmods.c",
+        "platform/progabs.s",
+        "tools/mkhunk.py",
+        "tools/mkdisk.py",
+        "tests/loadseg.c",
+        "tests/bootmod.c",
+        "tests/hunks/seghunk.c",
+        "tests/hunks/tmod.c"
+      ],
+      "upstream": [
+        "docs/reference/program-loading.md",
+        "abi/program.json"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "timer": {
+      "port": [
+        "devices/timer.c",
+        "include/devices/timer.h",
+        "fd/timer_lib.fd",
+        "tests/timer.c",
+        "tests/systime.c"
+      ],
+      "upstream": [
+        "lib/io/timerdriver.act",
+        "lib/io/timernative.act",
+        "lib/io/timer.act",
+        "lib/io/timer-types.inc",
+        "platform/altirraos/timer-device.s",
+        "platform/altirraos/platform-timer.s",
+        "abi/platform-timer.json",
+        "docs/reference/timer.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "battclock": {
+      "port": [
+        "devices/battclock.c",
+        "include/resources/battclock.h",
+        "fd/battclock_lib.fd"
+      ],
+      "upstream": [
+        "docs/reference/timer.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "policy": {
+      "port": [
+        "AGENTS.md",
+        "docs/platform.md"
+      ],
+      "upstream": [
+        "AGENTS.md",
+        "docs/contributing/testing.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "wd": {
+      "port": [
+        "devices/wd.c",
+        "include/devices/wd.h",
+        "tests/wdtest.h",
+        "tests/diskread.c",
+        "tests/diskwrite.c",
+        "tests/diskalign.c",
+        "tests/diskqueue.c",
+        "tests/disktimeout.c",
+        "tests/floppy.c",
+        "tests/nofloppy.c"
+      ],
+      "upstream": [
+        "docs/reference/ideplus-device.md",
+        "abi/ideplus.json",
+        "docs/reference/block-io.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "serial": {
+      "port": [
+        "devices/serial.c",
+        "include/devices/serial.h",
+        "tests/sertest.h",
+        "tests/serialread.c",
+        "tests/serialwrite.c",
+        "tests/serialparams.c",
+        "tests/serialwire.c",
+        "tools/echowire.py"
+      ],
+      "upstream": [
+        "docs/reference/device-io.md",
+        "docs/reference/resident-drivers.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "keyboard": {
+      "port": [
+        "devices/keyboard.c",
+        "include/devices/keyboard.h",
+        "include/devices/rawkeycodes.h",
+        "include/devices/inputevent.h",
+        "tests/kbdtest.h",
+        "tests/kbdnone.c",
+        "tests/kbdkeys.c"
+      ],
+      "upstream": [
+        "docs/reference/device-io.md",
+        "docs/reference/resident-drivers.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "parallel": {
+      "port": [
+        "devices/parallel.c",
+        "include/devices/parallel.h",
+        "tests/parallel.c"
+      ],
+      "upstream": [
+        "docs/reference/device-io.md",
+        "docs/reference/resident-drivers.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "beep": {
+      "port": [
+        "devices/beep.c",
+        "include/devices/beep.h",
+        "tests/beep.c"
+      ],
+      "upstream": [
+        "docs/reference/device-io.md",
+        "docs/reference/resident-drivers.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "console": {
+      "port": [
+        "devices/console.c",
+        "devices/conkeymap.c",
+        "devices/condisp.c",
+        "devices/vt.c",
+        "devices/lr.c",
+        "platform/vt.h",
+        "include/devices/console.h",
+        "include/devices/textcon.h",
+        "include/devices/conunit.h",
+        "platform/display.h",
+        "tests/vt.c",
+        "tests/condev.c",
+        "tests/lrcon.c",
+        "tests/conlat.c",
+        "tests/bootlog.c",
+        "tests/condisp.h"
+      ],
+      "upstream": [
+        "docs/reference/device-io.md",
+        "docs/reference/resident-drivers.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "dos": {
+      "port": [
+        "dos/doslib.c",
+        "dos/dosmisc.c",
+        "dos/dospkt.c",
+        "dos/doslist.c",
+        "dos/dosio.c",
+        "dos/dosext.c",
+        "dos/dosproc.c",
+        "dos/dosbuf.c",
+        "dos/dosargs.c",
+        "dos/dospat.c",
+        "dos/dosvar.c",
+        "dos/dosdate.c",
+        "dos/ramlib.c",
+        "dos/dosasm.s",
+        "dos/dosint.h",
+        "fd/dos_lib.fd",
+        "include/dos",
+        "lib/dosstart.c",
+        "lib/dstartup.s"
+      ],
+      "upstream": [
+        "lib/dos/dos.act",
+        "lib/dos/doscore.act",
+        "lib/dos/dos-packets.inc",
+        "lib/dos/dosobjects.act",
+        "lib/dos/dosprocess.act",
+        "lib/dos/process.act",
+        "docs/reference/dos.md",
+        "docs/reference/process.md",
+        "docs/reference/assigns.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "con_handler": {
+      "port": [
+        "dos/con.c"
+      ],
+      "upstream": [
+        "lib/dos/cookedline.act",
+        "lib/dos/doscooked.act",
+        "docs/reference/cooked-console.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "v7fs": {
+      "port": [
+        "dos/v7fs.c"
+      ],
+      "upstream": [
+        "lib/fs/fshandler.act",
+        "lib/fs/fspacket.act",
+        "lib/fs/fslocks.act",
+        "lib/fs/fsdirectory.act"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "ram_handler": {
+      "port": [
+        "dos/ram.c",
+        "tests/ramfs.c"
+      ],
+      "upstream": [
+        "lib/ram/ramfs.act",
+        "lib/ram/ramfile.act",
+        "lib/ram/ramwrite.act",
+        "lib/ram/ramtypes.act",
+        "docs/reference/ram-filesystem.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "shell": {
+      "port": [
+        "dos/shell.c",
+        "dos/c"
+      ],
+      "upstream": [
+        "lib/dos/command.act",
+        "lib/dos/doscommand.act",
+        "docs/reference/command-arguments.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    }
+  },
+  "not_ported": {
+    "filesystems": {
+      "reason": "MyDOS and SpartaDOS are Atari formats; the boot volume is COHERENT V7 (units.v7fs) and RAM: is units.ram_handler.",
+      "upstream": [
+        "lib/mydos",
+        "lib/spartados",
+        "abi/filesystems.json",
+        "docs/reference/mydos.md",
+        "docs/reference/spartados.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "sio": {
+      "reason": "Atari serial bus; the C900 uses a hard disk and SCC lines.",
+      "upstream": [
+        "platform/altirraos/sio.s",
+        "abi/sio.json",
+        "abi/sio-client.json",
+        "abi/sio-adapter.json",
+        "docs/reference/sio-client.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "console": {
+      "reason": "console.device follows Amiga console.device (units.console); the native console worker, cell retention, windows, ATASCII and the CONCMD_ commands are not ported.",
+      "upstream": [
+        "lib/console",
+        "lib/display",
+        "lib/input",
+        "platform/altirraos/console.s",
+        "abi/console.json",
+        "abi/console-bitmap.json",
+        "docs/reference/console.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "gem_aes": {
+      "reason": "Needs a video console and input devices.",
+      "upstream": [
+        "lib/aes",
+        "lib/widgets",
+        "lib/desktop",
+        "ports/gem4xe",
+        "abi/aes-server.json",
+        "abi/gem-vdi.json",
+        "abi/vdi-client.json",
+        "docs/reference/aes.md",
+        "docs/reference/gem-vdi.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "fastbasic": {
+      "reason": "6502/65816 interpreter port.",
+      "upstream": [
+        "ports/fastbasic",
+        "abi/fastbasic.json",
+        "docs/reference/fastbasic.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "sdx": {
+      "reason": "SpartaDOS X compatibility is Atari-specific.",
+      "upstream": [
+        "compat/sdx",
+        "abi/sdx.json",
+        "docs/reference/sdx-runtime.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "of816_boot": {
+      "reason": "kboot replaces the Atari boot path.",
+      "upstream": [
+        "platform/of816",
+        "abi/boot-v1.json",
+        "docs/reference/boot-loading.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "c_sdk": {
+      "reason": "Calypsi C SDK and runtime target the 65816.",
+      "upstream": [
+        "c",
+        "abi/c-runtime.json",
+        "abi/c-program.json",
+        "platform/altirraos/calypsi-call.s",
+        "docs/reference/c-runtime.md"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "block_io": {
+      "reason": "The filesystem block adapter and shared sector cache depend on DOS. The C900 block driver, wd.device, is the wd unit.",
+      "upstream": [
+        "lib/io/blockio.act",
+        "lib/io/blockcache.act",
+        "lib/io/blocktransport.act",
+        "abi/block-io.json"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    },
+    "dos_extensions": {
+      "reason": "Upstream DOS beyond the AmigaDOS model the units dos, con_handler, v7fs and shell follow: pipes, streams, foreground groups, console windows and history, ExNextBatch, the o65 and C program loaders, FastBASIC and SDX services.",
+      "upstream": [
+        "lib/dos/dospipe.act",
+        "lib/dos/dosstreams.act",
+        "lib/dos/dosgroup.act",
+        "lib/dos/cooked-history.inc",
+        "lib/dos/o65.act",
+        "lib/dos/cprogram.act",
+        "platform/altirraos/dos.s",
+        "abi/dos.json"
+      ],
+      "reviewed": "6967eae63e6be2a28b2f26fc5f715be341471dda"
+    }
+  }
+}
