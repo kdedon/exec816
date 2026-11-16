@@ -1,0 +1,10 @@
+* SPDX-License-Identifier: MIT
+* dlt.library, the disk-loaded test library of tests/ramlib.c, in the
+* C900 dialect of exec_lib.fd.  Each function takes DltBase first.
+##base _DltBase
+##bias 30
+##public
+DltAdd(a,b)(LONG,LONG) LONG @dtadd
+DltInits()() ULONG @dtinits
+DltSeg()() APTR @dtseg
+##end
