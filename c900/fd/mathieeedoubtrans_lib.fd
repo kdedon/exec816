@@ -1,0 +1,25 @@
+* SPDX-License-Identifier: MIT
+* mathieeedoubtrans.library (NDK mathieeedoubtrans_lib.fd), in the C900
+* dialect of exec_lib.fd.  Each function takes MathIeeeDoubTransBase as
+* its first argument.  Tieee and Fieee carry the single as its bits.
+##base _MathIeeeDoubTransBase
+##bias 30
+##public
+IEEEDPAtan(parm)(double) double @mtatan
+IEEEDPSin(parm)(double) double @mtsin
+IEEEDPCos(parm)(double) double @mtcos
+IEEEDPTan(parm)(double) double @mttan
+IEEEDPSincos(pf2,parm)(double *,double) double @mtsincos
+IEEEDPSinh(parm)(double) double @mtsinh
+IEEEDPCosh(parm)(double) double @mtcosh
+IEEEDPTanh(parm)(double) double @mttanh
+IEEEDPExp(parm)(double) double @mtexp
+IEEEDPLog(parm)(double) double @mtlog
+IEEEDPPow(exp,arg)(double,double) double @mtpow
+IEEEDPSqrt(parm)(double) double @mtsqrt
+IEEEDPTieee(parm)(double) LONG @mttieee
+IEEEDPFieee(parm)(LONG) double @mtfieee
+IEEEDPAsin(parm)(double) double @mtasin
+IEEEDPAcos(parm)(double) double @mtacos
+IEEEDPLog10(parm)(double) double @mtlog10
+##end

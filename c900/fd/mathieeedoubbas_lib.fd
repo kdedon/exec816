@@ -1,0 +1,20 @@
+* SPDX-License-Identifier: MIT
+* mathieeedoubbas.library (NDK mathieeedoubbas_lib.fd), in the C900
+* dialect of exec_lib.fd.  Each function takes MathIeeeDoubBasBase as its
+* first argument.
+##base _MathIeeeDoubBasBase
+##bias 30
+##public
+IEEEDPFix(parm)(double) LONG @mbfix
+IEEEDPFlt(integer)(LONG) double @mbflt
+IEEEDPCmp(leftParm,rightParm)(double,double) LONG @mbcmp
+IEEEDPTst(parm)(double) LONG @mbtst
+IEEEDPAbs(parm)(double) double @mbabs
+IEEEDPNeg(parm)(double) double @mbneg
+IEEEDPAdd(leftParm,rightParm)(double,double) double @mbadd
+IEEEDPSub(leftParm,rightParm)(double,double) double @mbsub
+IEEEDPMul(factor1,factor2)(double,double) double @mbmul
+IEEEDPDiv(dividend,divisor)(double,double) double @mbdiv
+IEEEDPFloor(parm)(double) double @mbfloor
+IEEEDPCeil(parm)(double) double @mbceil
+##end
