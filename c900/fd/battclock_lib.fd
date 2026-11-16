@@ -1,0 +1,12 @@
+* SPDX-License-Identifier: MIT
+* battclock.resource (NDK battclock_lib.fd), in the C900 dialect of
+* exec_lib.fd.  Each function takes BattClockBase as its first argument.
+* WriteBattClock and ResetBattClock return a status (0, BCERR_NOCLOCK or
+* BCERR_RANGE) where Amiga's return nothing.
+##base _BattClockBase
+##bias 6
+##public
+ResetBattClock()() int
+ReadBattClock()() ULONG
+WriteBattClock(time)(ULONG) int
+##end

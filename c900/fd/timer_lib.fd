@@ -1,0 +1,12 @@
+* SPDX-License-Identifier: MIT
+* timer.device's base functions (NDK timer_lib.fd), in the C900 dialect of
+* exec_lib.fd.  Each function takes TimerBase as its first argument.
+##base _TimerBase
+##bias 42
+##public
+AddTime(dest,src)(struct timeval *,struct timeval *) void @tAddTime
+SubTime(dest,src)(struct timeval *,struct timeval *) void @tSubTime
+CmpTime(dest,src)(struct timeval *,struct timeval *) LONG @tCmpTime
+ReadEClock(dest)(struct EClockVal *) ULONG @tReadEClock
+GetSysTime(dest)(struct timeval *) void @tGetSysTime
+##end
