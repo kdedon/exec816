@@ -1,0 +1,3 @@
+; tests/shellx: a failure at the fail level ends both scripts
+Execute S:Fail
+KPut "FAIL shellx: the outer script went on"

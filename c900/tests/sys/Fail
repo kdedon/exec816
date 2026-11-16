@@ -1,0 +1,4 @@
+; a script that fails half way: the shell stops at RetCode 20
+RetCode 0
+RetCode 20
+RetCode 99

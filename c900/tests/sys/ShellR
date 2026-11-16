@@ -1,0 +1,6 @@
+; tests/shellx: a script Run starts beside S:ShellW
+Wait 1
+If EXISTS RAM:runok
+  KPut "FAIL shellx: RAM:runok before the run"
+EndIf
+Echo >RAM:runok ok

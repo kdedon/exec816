@@ -1,0 +1,19 @@
+; Startup-Sequence of the tests/dosboot image
+Echo "dosboot: Startup-Sequence running"
+MakeDir RAM:T RAM:ENV
+If EXISTS SYS:Prefs/Env-Archive
+  Assign ENVARC: SYS:Prefs/Env-Archive
+EndIf
+If EXISTS ENVARC:
+  Copy >NIL: ENVARC: RAM:ENV ALL QUIET
+EndIf
+Assign ENV: RAM:ENV
+Assign T: RAM:T
+CD SYS:C
+CD
+Dir
+Type S:Motd
+Stack 6000
+DosPass one two
+EndCLI
+Echo "FAIL dosboot: EndCLI did not end the shell"

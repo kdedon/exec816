@@ -1,0 +1,188 @@
+.key ARG1/A,OPT/K,SW/S,MISSING
+.bra {
+.ket }
+.def MISSING dflt
+; tests/shellx: arguments, conditions, jumps and the C: commands
+Failat 21
+If NOT "{ARG1}" EQ "One"
+  KPut "FAIL shellx: positional argument {ARG1}"
+EndIf
+If NOT {OPT} EQ two
+  KPut "FAIL shellx: keyword argument {OPT}"
+EndIf
+If NOT {SW} EQ SW
+  KPut "FAIL shellx: switch {SW}"
+EndIf
+If NOT {MISSING} EQ dflt
+  KPut "FAIL shellx: .def default"
+EndIf
+If NOT {NONE$inl} EQ {NONE$inl}
+  KPut "FAIL shellx: unknown key"
+EndIf
+If {OPT$x} EQ x
+  KPut "FAIL shellx: inline default used when given"
+EndIf
+
+; conditions
+If 10 GT 9 VAL
+Else
+  KPut "FAIL shellx: VAL GT"
+EndIf
+If 10 GT 9
+  KPut "FAIL shellx: string GT"
+EndIf
+If abc GE ABC
+  If NOT 3 EQ 3
+    KPut "FAIL shellx: nested If"
+  Else
+    Echo >RAM:nested yes
+  EndIf
+Else
+  KPut "FAIL shellx: GE"
+EndIf
+If NOT EXISTS RAM:nested
+  KPut "FAIL shellx: nested Else"
+EndIf
+If EXISTS RAM:nothing
+  KPut "FAIL shellx: EXISTS"
+EndIf
+RetCode 5
+If NOT WARN
+  KPut "FAIL shellx: WARN"
+EndIf
+If ERROR
+  KPut "FAIL shellx: ERROR"
+EndIf
+RetCode 20
+If NOT FAIL
+  KPut "FAIL shellx: FAIL"
+EndIf
+
+; Skip forward, Skip BACK, EndSkip
+Skip ahead
+KPut "FAIL shellx: Skip did not skip"
+Lab ahead
+Lab top
+If EXISTS RAM:pass2
+  Skip done
+EndIf
+MakeDir RAM:pass2
+Skip top BACK
+KPut "FAIL shellx: Skip BACK fell through"
+Lab done
+Skip
+KPut "FAIL shellx: Skip to EndSkip"
+EndSkip
+
+; built-ins with redirection
+Echo >RAM:echo "hello  world" again
+Echo >RAM:noline NOLINE x
+Fault >RAM:fault 205
+Delete RAM:nothing
+Why >RAM:why
+Failat >RAM:failat
+Stack >RAM:stack
+Echo >RAM:yes y
+Ask <RAM:yes >NIL: "Proceed?"
+If NOT WARN
+  KPut "FAIL shellx: Ask"
+EndIf
+
+; Stack
+Stack 1000
+If NOT ERROR
+  KPut "FAIL shellx: Stack too small"
+EndIf
+Stack 4000
+StkSize 4000
+If ERROR
+  KPut "FAIL shellx: Stack 4000"
+EndIf
+Stack 1600
+
+; Path and Resident
+MakeDir RAM:bin
+Copy C:RetCode RAM:bin/RC2
+Path RAM:bin ADD
+Path >RAM:path
+RC2 5
+If NOT 3 EQ 3
+EndIf
+; If and EndIf keep the return code
+If NOT WARN
+  KPut "FAIL shellx: a command from the Path"
+EndIf
+Resident RAM:bin/RC2 PURE
+Path RAM:bin REMOVE
+Delete RAM:bin/RC2
+RC2 7
+If NOT WARN
+  KPut "FAIL shellx: a resident command"
+EndIf
+Resident >RAM:resident
+Resident RC2 REMOVE
+RC2 7
+If NOT ERROR
+  KPut "FAIL shellx: Resident REMOVE"
+EndIf
+
+; nested Execute
+Execute S:ShellIn inner
+If NOT EXISTS RAM:inner
+  KPut "FAIL shellx: nested Execute"
+EndIf
+
+; the C: commands
+Copy RAM:echo RAM:copy
+MakeDir RAM:dir RAM:dir/sub
+Copy RAM:echo RAM:noline RAM:dir/sub QUIET
+Copy RAM:dir RAM:dir2 ALL QUIET
+If NOT EXISTS RAM:dir2/sub/noline
+  KPut "FAIL shellx: Copy ALL"
+EndIf
+Rename RAM:dir2/sub/echo RAM:dir2
+If NOT EXISTS RAM:dir2/echo
+  KPut "FAIL shellx: Rename into a directory"
+EndIf
+Rename RAM:dir2/echo AS RAM:dir2/echo2
+Protect RAM:dir2/echo2 rwe
+Delete RAM:dir2/echo2
+If NOT EXISTS RAM:dir2/echo2
+  KPut "FAIL shellx: Protect -d"
+EndIf
+Protect RAM:dir2/echo2 +d
+Protect >RAM:protect RAM:dir2/echo2
+Assign XT: RAM:dir RAM:dir2
+Assign XT: RAM:inner ADD
+If NOT EXISTS XT:echo2
+  KPut "FAIL shellx: multi-directory Assign"
+EndIf
+Assign >RAM:assign
+Assign XT: RAM:dir2 REMOVE
+If EXISTS XT:echo2
+  KPut "FAIL shellx: Assign REMOVE"
+EndIf
+Assign XT:
+Assign XT: EXISTS
+If NOT WARN
+  KPut "FAIL shellx: Assign EXISTS"
+EndIf
+Delete RAM:dir RAM:dir2 ALL QUIET
+If EXISTS RAM:dir2
+  KPut "FAIL shellx: Delete ALL"
+EndIf
+Info >RAM:info
+Version >RAM:version dos.library VERSION 39
+If WARN
+  KPut "FAIL shellx: Version"
+EndIf
+Version >NIL: dos.library VERSION 99
+If NOT WARN
+  KPut "FAIL shellx: Version too old"
+EndIf
+Version >RAM:verfile L:Shell-Seg FILE
+Date >RAM:date
+Wait 1
+NewShell NIL: FROM S:ShellN
+StackUse
+KPut "shellx: script done"

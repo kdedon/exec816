@@ -1,0 +1,2 @@
+; tests/shellx: the FROM script of a NewShell on NIL:
+Echo >RAM:newshell <$$>

@@ -1,0 +1,4 @@
+.key NAME/A
+; tests/shellx: a script ShellX Executes, with the default < and >
+MakeDir RAM:<NAME>
+Echo >RAM:<NAME>/cli <$$>

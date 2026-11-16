@@ -1,0 +1,8 @@
+; tests/shellx: wait, in a script of its own, for S:ShellR's Run shell
+Run Execute S:ShellR
+Lab again
+If NOT EXISTS RAM:runok
+  Wait 1
+  Skip again BACK
+EndIf
+Echo >RAM:waited done

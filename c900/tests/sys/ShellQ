@@ -1,0 +1,3 @@
+; tests/shellx: Quit ends the script with its code
+Execute S:ShellQ2
+KPut "FAIL shellx: Quit in a nested script went on"

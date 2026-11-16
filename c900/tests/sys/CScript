@@ -1,0 +1,4 @@
+CTest chdir
+CTest cwd
+CTest fail
+CTest cwd >SYS:notreached
