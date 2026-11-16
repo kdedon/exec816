@@ -1,0 +1,32 @@
+# Exec900: fetch the dependency releases, then build and test the kernel.
+name: build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  c900:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dependencies
+        run: make -C c900 deps
+
+      - name: Exec900
+        run: make -C c900 -j"$(nproc)" all
+
+      - name: Host tests
+        run: make -C c900 hostcheck
+
+      - name: Emulator tests
+        run: make -C c900 check

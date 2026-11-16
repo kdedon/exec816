@@ -1,0 +1,42 @@
+# On a v* tag, build and test Exec900 against the latest dependency
+# releases, then publish the system, headers and tools archives.
+name: release
+
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dependencies
+        run: make -C c900 deps
+
+      - name: Exec900
+        run: make -C c900 -j"$(nproc)" all
+
+      - name: Host tests
+        run: make -C c900 hostcheck
+
+      - name: Emulator tests
+        run: make -C c900 check
+
+      - name: Pack
+        run: |
+          tag=$GITHUB_REF_NAME
+          [ "$GITHUB_REF_TYPE" = tag ] || tag=$(git rev-parse --short HEAD)
+          make -C c900 release TAG="$tag"
+
+      - name: Publish
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/c900/dist/c900-exec900-*.tar.gz
+          fail_on_unmatched_files: true

@@ -65,7 +65,7 @@ VAR	= 800000020800
 vpath %.c $(C900)/kernel $(C900)/platform $(C900)/devices
 vpath %.s $(C900)/platform
 
-.PHONY: all smoke test check hostcheck clean help deps
+.PHONY: all smoke test check hostcheck clean help deps release
 all: $(OUT)/exec900.sys $(OUT)/exec900.bin
 
 help:
@@ -75,7 +75,8 @@ help:
 	@echo "make check        hostcheck, smoke and every tests/*.c"
 	@echo "make hostcheck    host-side tool tests (tests/host)"
 	@echo "make clean        remove $(OUT)"
-	@echo "make deps         check out what DEPS pins into deps/ (DEP=name for one)"
+	@echo "make release      pack the release archives into dist/ (TAG=v0.1.0)"
+	@echo "make deps         unpack the releases ../DEPS lists into deps/ (DEP=name for one)"
 	@echo "Inputs: C900_TOOLCHAIN=$(C900_TOOLCHAIN)"
 	@echo "        KBOOT=$(KBOOT) KBOOTSRC=$(KBOOTSRC)"
 	@echo "        C900_EMU=$(C900_EMU) BUDGET=$(BUDGET)"
@@ -504,6 +505,7 @@ DISK_dosboot	= $(DOSDISK) --put=C/DosPass=$(OUT)/tc/DosPass \
 		  --put=S/Startup-Sequence=$(C900)/tests/sys/Startup-Sequence \
 		  --put=S/Motd=$(C900)/tests/sys/Motd \
 		  --put=Prefs/Env-Archive/Language=$(C900)/tests/sys/Language
+$(OBJ)/t_dosboot.o: $(DOSDIR)/dosboot.c
 $(OUT)/dosboot.bin: $(C900)/tests/sys/Startup-Sequence $(C900)/tests/sys/Motd \
 	$(C900)/tests/sys/Language
 DISK_shell	= $(DOSDISK) --put=C/RetCode=$(OUT)/tc/RetCode \
@@ -609,6 +611,12 @@ test:
 
 deps:
 	sh $(C900)/tools/deps-fetch.sh $(DEP)
+
+# The release archives (tools/pack-release.sh), e.g. TAG=v0.1.0.
+release: all $(HUNKS) $(PROGS)/dosboot
+	@test -n "$(TAG)" || { echo "make release: name a tag, e.g. TAG=v0.1.0" >&2; exit 2; }
+	C900_TOOLCHAIN=$(C900_TOOLCHAIN) KBOOTSRC=$(KBOOTSRC) \
+	  sh $(C900)/tools/pack-release.sh $(TAG) $(OUT)
 
 hostcheck:
 	python3 -B -m unittest discover -s $(C900)/tests/host -p 'test_*.py'

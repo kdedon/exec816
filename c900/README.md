@@ -11,21 +11,20 @@ model and the MiSTer core's RTL bench. Nothing is qualified on hardware.
 
 ## Prerequisites
 
-Python 3 and the checkouts [DEPS](DEPS) pins. `make -C c900 deps` clones
-them into `c900/deps/`; without it, sibling checkouts next to this
-repository are used:
+Python 3 and the releases [DEPS](../DEPS) lists. `make -C c900 deps` unpacks
+the latest of each into `c900/deps/`; without it, sibling checkouts next
+to this repository are used:
 
-| Checkout | Override | Used for |
+| Default | Override | Used for |
 | --- | --- | --- |
-| `../commodore-900-toolchain` (built) | `C900_TOOLCHAIN` | Mark Williams C compiler, assembler, linker |
-| `../commodore-900-kboot` | `KBOOTSRC` | kboot source and `bootinfo.h` |
-| `$KBOOTSRC/build/kboot` | `KBOOT` | the loader written to the boot disk |
+| `../commodore-900-toolchain` (built) | `C900_TOOLCHAIN` | Mark Williams C compiler, assembler, linker, libc and libm sources |
+| `../commodore-900-kboot` | `KBOOTSRC` | `bootinfo.h` |
+| `$KBOOTSRC/kboot` or `$KBOOTSRC/build/kboot` | `KBOOT` | the loader written to the boot disk |
 | `../commodore-900-emulator` | `C900_EMU` | emulator binary and boot ROM |
 
-Build the toolchain with `make all`, then `sh host/arz -b`; kboot with
-`make`, which finds the toolchain beside it or in `C900_TOOLCHAIN`; the
-emulator with `make`. Pass overrides on the command line, e.g.
-`make -C c900 C900_TOOLCHAIN=/opt/c900-toolchain`.
+A sibling toolchain is built with `make all`, then `sh host/arz -b`;
+kboot and the emulator with `make`. Pass overrides on the command line,
+e.g. `make -C c900 C900_TOOLCHAIN=/opt/c900-toolchain`.
 
 ## Build, run and test
 
@@ -34,6 +33,7 @@ make -C c900                  # build/c900/exec900.sys and exec900.bin
 make -C c900 test T=tasks     # boot with tests/tasks.c as the root program, check PASS
 make -C c900 check            # every test
 make -C c900 test T=dosboot   # boot AmigaDOS: S:Startup-Sequence under the shell
+make -C c900 release TAG=v0.1.0  # release archives: system, headers and tools
 $C900_EMU/bin/c900 --firmware=$C900_EMU/rom --disk=build/c900/exec900.bin
 ```
 

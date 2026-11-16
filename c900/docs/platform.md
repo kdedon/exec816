@@ -1491,7 +1491,7 @@ shell runs; here `Startup` names one program that exec runs, and the
 system stops when it returns. A root program that wants AmigaOS's boot
 starts it itself: it opens dos.library, creates a process that opens
 `CON:` and calls `Execute("Execute S:Startup-Sequence", in, out)`, and
-waits for it (`tests/dosboot.c`).
+waits for it, as DOSBoot (`dos/dosboot.c`) does.
 
 ## DOS
 
@@ -1775,11 +1775,12 @@ ported. [Internals](internals.md#dos) has the design.
   them, and a write that runs out of memory returns the bytes it
   stored, or −1 with `ERROR_NO_FREE_STORE`. The contents go when the
   system stops.
-- **Boot assigns.** The boot `S:Startup-Sequence` (the `dosboot`
-  image's) does what AmigaOS's does: `MakeDir RAM:T RAM:ENV`, `Assign
-  ENVARC: SYS:Prefs/Env-Archive` when that directory exists, `Copy
-  ENVARC: RAM:ENV ALL` when `ENVARC:` exists, `Assign ENV: RAM:ENV` and
-  `Assign T: RAM:T`.
+- **Boot assigns.** The released `S:Startup-Sequence` makes `RAM:T` and
+  assigns `T:` to it; `ENV:` and `ENVARC:` are left to Workbench. The
+  `dosboot` test image's also does what AmigaOS's does: `MakeDir RAM:T
+  RAM:ENV`, `Assign ENVARC: SYS:Prefs/Env-Archive` when that directory
+  exists, `Copy ENVARC: RAM:ENV ALL` when `ENVARC:` exists, `Assign ENV:
+  RAM:ENV` and `Assign T: RAM:T`.
 - **Shell.** `Execute(cmd, in, out)` and `SystemTagList(cmd, tags)`
   (`SYS_Input`, `SYS_Output`, `SYS_Asynch`) run `L:Shell-Seg` as a CLI
   process (loaded once). Execute runs `cmd`, then the commands in `in`;

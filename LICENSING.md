@@ -13,6 +13,9 @@ console implementation, DOS implementation, filesystems, loaders, platform
 adapters, resident shell, build tools and tests. Documentation follows the
 same default except where included in an MIT directory below.
 
+Exec900 (`c900/`) follows this licensing; its MIT files and third-party
+material are listed in [c900/LICENSING.md](c900/LICENSING.md).
+
 ## MIT public interfaces and examples
 
 The following Exec816-authored files are licensed under the **MIT License**

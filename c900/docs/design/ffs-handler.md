@@ -57,7 +57,7 @@ or its own repository, not under `c900/dos`. Reusing v7fs's cache code
 needs its author to offer it under MIT; otherwise the cache is written
 anew in the port.
 
-**Dialect.** At toolchain `ca463ce` cc0 accepts prototypes, ANSI
+**Dialect.** At toolchain `1dcd1d0` cc0 accepts prototypes, ANSI
 definitions, `//` comments, declarations after statements, automatic
 structure initializers and unbounded automatic arrays
 (`commodore-900-toolchain/docs/PATCHES.md`; [internals](../internals.md#toolchain-facts)

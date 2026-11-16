@@ -114,11 +114,9 @@ if [ $# -eq 2 ]; then
 fi
 boots=$(directive BOOTS)
 fsck=$(directive FSCK)
-# Boots that write the image run on a copy, so each run starts afresh.
-if [ -n "$boots" ]; then
-	cp "$img" "$log.img" || exit 1
-	img=$log.img
-fi
+# Run on a copy, so a test that writes its disk starts afresh each time.
+cp "$img" "$log.img" || exit 1
+img=$log.img
 : >"$log.raw"
 : >"$log.err"
 rc=0 n=0

@@ -27,7 +27,7 @@ the conventions every C900 source follows.
   ([libraries](platform.md#libraries-and-sysbase)). Kernel code calling
   another kernel function directly must pass correctly sized arguments:
   `0L` or `NULL` for pointers and `(ULONG)` for masks and sizes.
-- Toolchain commit `3337edd` or later is required ([DEPS](../DEPS) pins one). It fixes cc1's internal
+- Toolchain v0.2.0 or later is required ([DEPS](../../DEPS) takes the latest). It fixes cc1's internal
   error 175C on an indirect call through an address computed from a local
   or register variable, a compare against `&h->a[i]->first` that
   branched on the flags of a following `dec` (`tests/ccfix.c` checks

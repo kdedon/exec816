@@ -1,3 +1,10 @@
+# Exec900
+
+This branch is Exec900: the Exec816 kernel ported to the Commodore 900
+(Zilog Z8001). See [c900/README.md](c900/README.md), [DEPS](DEPS),
+[CHANGES.md](CHANGES.md) and the
+[releases](https://github.com/kdedon/exec816/releases).
+
 # Exec816
 
 Exec816 is a small Amiga Exec-inspired multitasking system for the WDC 65C816,

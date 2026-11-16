@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-only
 #
-# External inputs.  Each defaults to the checkout in deps/ (make deps), else
+# External inputs.  Each defaults to the release in deps/ (make deps), else
 # a sibling checkout of exec816, and can be overridden on the command line or
 # in the environment.
 
@@ -8,7 +8,7 @@ GITDIR		:= $(abspath $(C900)/../..)
 DEPDIR		= $(or $(wildcard $(C900)/deps/$(1)),$(GITDIR)/$(1))
 C900_TOOLCHAIN	?= $(call DEPDIR,commodore-900-toolchain)
 KBOOTSRC	?= $(call DEPDIR,commodore-900-kboot)
-KBOOT		?= $(KBOOTSRC)/build/kboot
+KBOOT		?= $(firstword $(wildcard $(KBOOTSRC)/kboot) $(KBOOTSRC)/build/kboot)
 C900_EMU	?= $(call DEPDIR,commodore-900-emulator)
 
 TC	= $(C900_TOOLCHAIN)/host/build
