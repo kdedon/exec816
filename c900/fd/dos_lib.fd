@@ -1,0 +1,192 @@
+* SPDX-License-Identifier: MIT
+* dos.library (NDK dos_lib.fd, V39), in the C900 dialect of exec_lib.fd.
+* Vector order and offsets are AmigaDOS's.  Each function takes DOSBase
+* as its first argument; BPTRs are native pointers (<dos/dos.h>).  A line
+* that keeps its register list is not implemented: its vector raises no
+* alert, it sets IoErr ERROR_NOT_IMPLEMENTED and returns 0.
+##base _DOSBase
+##bias 30
+##public
+Open(name,accessMode)(char *,LONG) BPTR
+Close(file)(BPTR) LONG
+Read(file,buffer,length)(BPTR,APTR,LONG) LONG
+Write(file,buffer,length)(BPTR,APTR,LONG) LONG
+Input()() BPTR
+Output()() BPTR
+Seek(file,position,offset)(BPTR,LONG,LONG) LONG
+DeleteFile(name)(char *) LONG
+Rename(oldName,newName)(char *,char *) LONG
+Lock(name,type)(char *,LONG) BPTR
+UnLock(lock)(BPTR) void
+DupLock(lock)(BPTR) BPTR
+Examine(lock,fileInfoBlock)(BPTR,struct FileInfoBlock *) LONG
+ExNext(lock,fileInfoBlock)(BPTR,struct FileInfoBlock *) LONG
+Info(lock,parameterBlock)(BPTR,struct InfoData *) LONG
+CreateDir(name)(char *) BPTR
+CurrentDir(lock)(BPTR) BPTR
+IoErr()() LONG
+CreateProc(name,pri,segList,stackSize)(char *,LONG,BPTR,LONG) struct MsgPort *
+Exit(returnCode)(LONG) void
+LoadSeg(name)(char *) BPTR
+UnLoadSeg(seglist)(BPTR) void
+##private
+dosPrivate1()()
+dosPrivate2()()
+##public
+DeviceProc(name)(char *) struct MsgPort *
+SetComment(name,comment)(char *,char *) LONG
+SetProtection(name,protect)(char *,LONG) LONG
+DateStamp(date)(struct DateStamp *) struct DateStamp *
+Delay(timeout)(LONG) void
+WaitForChar(file,timeout)(BPTR,LONG) LONG
+ParentDir(lock)(BPTR) BPTR
+IsInteractive(file)(BPTR) LONG
+Execute(string,file,file2)(char *,BPTR,BPTR) LONG
+*--- functions in V36 or higher (Release 2.0) ---
+AllocDosObject(type,tags)(ULONG,struct TagItem *) APTR @xAllocDosObj
+FreeDosObject(type,ptr)(ULONG,APTR) void @xFreeDosObj
+DoPkt(port,action,arg1,arg2,arg3,arg4,arg5)(struct MsgPort *,LONG,LONG,LONG,LONG,LONG,LONG) LONG
+SendPkt(dp,port,replyport)(struct DosPacket *,struct MsgPort *,struct MsgPort *) void
+WaitPkt()() struct DosPacket *
+ReplyPkt(dp,res1,res2)(struct DosPacket *,LONG,LONG) void
+AbortPkt(port,pkt)(d1/d2)
+LockRecord(fh,offset,length,mode,timeout)(d1/d2/d3/d4/d5)
+LockRecords(recArray,timeout)(d1/d2)
+UnLockRecord(fh,offset,length)(d1/d2/d3)
+UnLockRecords(recArray)(d1)
+SelectInput(fh)(BPTR) BPTR
+SelectOutput(fh)(BPTR) BPTR
+FGetC(fh)(BPTR) LONG
+FPutC(fh,ch)(BPTR,LONG) LONG
+UnGetC(fh,character)(BPTR,LONG) LONG
+FRead(fh,block,blocklen,number)(BPTR,APTR,ULONG,ULONG) LONG
+FWrite(fh,block,blocklen,number)(BPTR,APTR,ULONG,ULONG) LONG
+FGets(fh,buf,buflen)(BPTR,char *,ULONG) char *
+FPuts(fh,str)(BPTR,char *) LONG
+VFWritef(fh,format,argarray)(BPTR,char *,LONG *) LONG
+VFPrintf(fh,format,argarray)(BPTR,char *,APTR) LONG
+Flush(fh)(BPTR) LONG
+SetVBuf(fh,buff,type,size)(BPTR,char *,LONG,LONG) LONG
+DupLockFromFH(fh)(d1)
+OpenFromLock(lock)(d1)
+ParentOfFH(fh)(d1)
+ExamineFH(fh,fib)(BPTR,struct FileInfoBlock *) LONG
+SetFileDate(name,date)(char *,struct DateStamp *) LONG
+NameFromLock(lock,buffer,len)(BPTR,char *,LONG) LONG
+NameFromFH(fh,buffer,len)(d1/d2/d3)
+SplitName(name,separator,buf,oldpos,size)(char *,ULONG,char *,LONG,LONG) LONG
+SameLock(lock1,lock2)(BPTR,BPTR) LONG
+SetMode(fh,mode)(BPTR,LONG) LONG
+ExAll(lock,buffer,size,data,control)(d1/d2/d3/d4/d5)
+ReadLink(port,lock,path,buffer,size)(d1/d2/d3/d4/d5)
+MakeLink(name,dest,soft)(d1/d2/d3)
+ChangeMode(type,fh,newmode)(d1/d2/d3)
+SetFileSize(fh,pos,mode)(BPTR,LONG,LONG) LONG
+SetIoErr(result)(LONG) LONG
+Fault(code,header,buffer,len)(LONG,char *,char *,LONG) LONG
+PrintFault(code,header)(LONG,char *) LONG
+ErrorReport(code,type,arg1,device)(d1/d2/d3/a0)
+##private
+dosPrivate3()()
+##public
+Cli()() struct CommandLineInterface *
+CreateNewProc(tags)(struct TagItem *) struct Process * @xCreateNewProc
+RunCommand(seg,stack,paramptr,paramlen)(BPTR,LONG,char *,LONG) LONG
+GetConsoleTask()() struct MsgPort * @xGetConTask
+SetConsoleTask(task)(struct MsgPort *) struct MsgPort * @xSetConTask
+GetFileSysTask()() struct MsgPort * @xGetFSTask
+SetFileSysTask(task)(struct MsgPort *) struct MsgPort * @xSetFSTask
+GetArgStr()() char *
+SetArgStr(string)(char *) char *
+FindCliProc(num)(d1)
+MaxCli()()
+SetCurrentDirName(name)(char *) LONG @xSetCurDirName
+GetCurrentDirName(buf,len)(char *,LONG) LONG @xGetCurDirName
+SetProgramName(name)(char *) LONG @xSetProgName
+GetProgramName(buf,len)(char *,LONG) LONG @xGetProgName
+SetPrompt(name)(char *) LONG
+GetPrompt(buf,len)(char *,LONG) LONG
+SetProgramDir(lock)(d1)
+GetProgramDir()()
+SystemTagList(command,tags)(char *,struct TagItem *) LONG @xSystemTagList
+AssignLock(name,lock)(char *,BPTR) LONG
+AssignLate(name,path)(char *,char *) LONG
+AssignPath(name,path)(d1/d2)
+AssignAdd(name,lock)(char *,BPTR) LONG
+RemAssignList(name,lock)(char *,BPTR) LONG
+GetDeviceProc(name,dp)(char *,struct DevProc *) struct DevProc * @xGetDevProc
+FreeDeviceProc(dp)(struct DevProc *) void @xFreeDevProc
+LockDosList(flags)(ULONG) struct DosList *
+UnLockDosList(flags)(ULONG) void
+AttemptLockDosList(flags)(d1)
+RemDosEntry(dlist)(struct DosList *) LONG
+AddDosEntry(dlist)(struct DosList *) LONG
+FindDosEntry(dlist,name,flags)(struct DosList *,char *,ULONG) struct DosList *
+NextDosEntry(dlist,flags)(struct DosList *,ULONG) struct DosList *
+MakeDosEntry(name,type)(char *,LONG) struct DosList *
+FreeDosEntry(dlist)(struct DosList *) void
+IsFileSystem(name)(char *) LONG
+Format(filesystem,volumename,dostype)(d1/d2/d3)
+Relabel(drive,newname)(d1/d2)
+Inhibit(name,onoff)(d1/d2)
+AddBuffers(name,number)(d1/d2)
+CompareDates(date1,date2)(struct DateStamp *,struct DateStamp *) LONG
+DateToStr(datetime)(struct DateTime *) LONG
+StrToDate(datetime)(struct DateTime *) LONG
+* The vectors call exec.library's, whose macros <lvo/exec_lib.h> has.
+##private
+InternalLoadSeg(fh,table,funcarray,stack)(BPTR,BPTR,LONG *,LONG *) BPTR @xDInLoadSeg
+InternalUnLoadSeg(seglist,freefunc)(BPTR,APTR) LONG @xDInUnLoadSeg
+##public
+NewLoadSeg(file,tags)(d1/d2)
+AddSegment(name,seg,system)(char *,BPTR,LONG) LONG
+FindSegment(name,seg,system)(char *,struct Segment *,LONG) struct Segment *
+RemSegment(seg)(struct Segment *) LONG
+CheckSignal(mask)(ULONG) ULONG
+ReadArgs(arg_template,array,args)(char *,LONG *,struct RDArgs *) struct RDArgs *
+* The NDK names D1 keyword, but the template is D1, as the autodoc says.
+FindArg(arg_template,keyword)(char *,char *) LONG
+ReadItem(name,maxchars,cSource)(char *,LONG,struct CSource *) LONG
+StrToLong(string,value)(char *,LONG *) LONG
+MatchFirst(pat,anchor)(char *,struct AnchorPath *) LONG
+MatchNext(anchor)(struct AnchorPath *) LONG
+MatchEnd(anchor)(struct AnchorPath *) void
+ParsePattern(pat,buf,buflen)(char *,char *,LONG) LONG
+MatchPattern(pat,str)(char *,char *) LONG
+##private
+dosPrivate4()()
+##public
+FreeArgs(args)(struct RDArgs *) void
+##private
+dosPrivate5()()
+##public
+FilePart(path)(char *) char *
+PathPart(path)(char *) char *
+AddPart(dirname,filename,size)(char *,char *,ULONG) LONG
+StartNotify(notify)(d1)
+EndNotify(notify)(d1)
+SetVar(name,buffer,size,flags)(char *,char *,LONG,LONG) LONG
+GetVar(name,buffer,size,flags)(char *,char *,LONG,LONG) LONG
+DeleteVar(name,flags)(char *,LONG) LONG
+FindVar(name,type)(char *,ULONG) struct LocalVar *
+##private
+dosPrivate6()()
+##public
+CliInitNewcli(dp)(a0)
+CliInitRun(dp)(a0)
+WriteChars(buf,buflen)(char *,ULONG) LONG
+PutStr(str)(char *) LONG
+VPrintf(format,argarray)(char *,APTR) LONG
+##private
+dosPrivate7()()
+##public
+*--- functions in V39 or higher (Release 3) ---
+ParsePatternNoCase(pat,buf,buflen)(char *,char *,LONG) LONG @xParsePatNC
+MatchPatternNoCase(pat,str)(char *,char *) LONG @xMatchPatNC
+##private
+dosPrivate8()()
+##public
+SameDevice(lock1,lock2)(d1/d2)
+ExAllEnd(lock,buffer,size,data,control)(d1/d2/d3/d4/d5)
+SetOwner(name,owner_info)(d1/d2)
+##end
