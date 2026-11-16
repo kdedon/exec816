@@ -1,0 +1,10 @@
+* SPDX-License-Identifier: MIT
+* gameport.device's base function (Exec900; the NDK's gameport.device has
+* none), in the C900 dialect of exec_lib.fd.  It takes GamePortBase as its
+* first argument.  GetGPButtons returns the IEQUALIFIER_ button bits held
+* now.
+##base _GamePortBase
+##bias 42
+##public
+GetGPButtons()() ULONG @gpbuttons
+##end

@@ -1,0 +1,12 @@
+* SPDX-License-Identifier: MIT
+* framebuf.resource (Exec900; no NDK counterpart), in the C900 dialect
+* of exec_lib.fd.  Each function takes FrameBufBase as its first argument.
+* AllocFB follows misc.resource's AllocMiscResource: NULL on success,
+* else the owner's name.
+##base _FrameBufBase
+##bias 6
+##public
+GetFBInfo()() struct FBInfo *
+AllocFB(name)(char *) char *
+FreeFB()() void
+##end
